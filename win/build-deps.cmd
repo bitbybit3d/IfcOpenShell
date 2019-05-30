@@ -86,13 +86,13 @@ FOR %%i IN (powershell git cmake) DO (
 )
 
 :: Check powershell version
-powershell -c "exit $PSVersionTable.PSVersion.Major -lt 5"
+powershell -c "exit $PSVersionTable.PSVersion.Major -lt 4"
 IF NOT %ERRORLEVEL%==0 call cecho.cmd 0 12 "Powershell version 5 or higher required" && goto :ErrorAndPrintUsage
 
 cmake --version | findstr version > temp.txt
 set /p CMAKE_VERSION=<temp.txt
 del temp.txt
-if "%CMAKE_VERSION%" LSS "cmake version 3.11.4" (
+if "%CMAKE_VERSION%" LSS "cmake version 3.11.1" (
     echo "CMake v3.11.4 or higher is required"
     goto :ErrorAndPrintUsage
 )

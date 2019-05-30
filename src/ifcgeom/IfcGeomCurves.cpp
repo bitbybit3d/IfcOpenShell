@@ -185,6 +185,18 @@ bool IfcGeom::Kernel::convert(const IfcSchema::IfcBSplineCurveWithKnots* l, Hand
 	for (std::vector<double>::const_iterator it = knots.begin(); it != knots.end(); ++it, ++i) {
 		Knots(i) = *it;
 	}
+
+    if (Periodic) {
+        if (mults.front() == Degree + 1 && mults.back() == Degree + 1)
+        {// closed clamp curve
+            --Mults.ChangeFirst();
+            --Mults.ChangeLast();
+
+            Poles.Resize(Poles.Lower(), Poles.Upper() - 1, Standard_True);
+            if (is_rational)
+                Weights.Resize(Weights.Lower(), Weights.Upper() - 1, Standard_True);
+        }
+    }
 	
 	if (is_rational) {
 		curve = new Geom_BSplineCurve(Poles, Weights, Knots, Mults, Degree, Periodic);

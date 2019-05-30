@@ -128,6 +128,9 @@ bool IfcGeom::Kernel::convert(const IfcSchema::IfcFace* l, TopoDS_Shape& face) {
 
 		TopoDS_Face surface = TopoDS::Face(exp.Current());
 		face_surface = BRep_Tool::Surface(surface);
+
+        if (!fs->SameSense())
+            face_surface->VReverse();
 	}
 	
 	const int num_bounds = bounds->size();
